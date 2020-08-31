@@ -50,7 +50,7 @@ As the evaluation of our project cost 40'000 hours of CPU time, it is not feasib
 
 Additionally, we provide scripts for further inspection which are not meant to be run, but to demonstrate how the pickle files were created. An explanation of these scripts can be found in the appendix of this document (["Further inspection"](#further-inspection)).  
 
-Please change the directory to `~/artifact` and execute `run.sh`. This script regenerates most of the evaluation data as seen in the paper in section 6. The expected output can be found [here](data/artifact_output.txt). The following sections present a more detailed explanation of the output.
+Please change the directory to `~/artifact` and execute `run.sh`. This script regenerates most of the evaluation data as seen in the paper in section 6. The expected output can be found [here](data/artifact_out.txt). The following sections present a more detailed explanation of the output.
 
 ### Training
 
