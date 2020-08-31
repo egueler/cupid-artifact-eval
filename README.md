@@ -1,6 +1,6 @@
 # Installation & Information
 
-Please use the ready-to-go [VirtualBox image (link)](https://ruhr-uni-bochum.sciebo.de/s/PolO2GCAvgdk2Al), not only to avoid the time consuming task of installing all dependencies, generating docker images and copying all the data, but also to avoid damages to the file system as our code needs to harshly terminate some of the fuzzers in the rare cases when they refuse to be killed.
+Please use the ready-to-go [VirtualBox image (download)](https://ruhr-uni-bochum.sciebo.de/s/PolO2GCAvgdk2Al), not only to avoid the time consuming task of installing all dependencies, generating docker images and copying all the data, but also to avoid damages to the file system as our code needs to harshly terminate some of the fuzzers in the rare cases when they refuse to be killed.
 
 Import the image in VirtualBox and boot the system. The credentials are set as "cupid:cupid" and "root:root". Note that VirtualBox might complain about missing guest additions, which was needed to copy the artifact data and source code via a shared folder. You can safely ignore the message. Additonally, if `A start job is running` is shown, please wait a few minutes until the VM boots.  
 
@@ -50,13 +50,13 @@ As the evaluation of our project cost 40'000 hours of CPU time, it is not feasib
 
 Additionally, we provide scripts for further inspection which are not meant to be run, but to demonstrate how the pickle files were created. An explanation of these scripts can be found in the appendix of this document (["Further inspection"](#further-inspection)).  
 
-Please change the directory to `~/artifact` and execute `run.sh`. This script regenerates most of the evaluation data as seen in the paper in section 6. The expected output is presented in the appendix of this document (["Expected output"](#expected-output)) and can also be found in this repository as `artifact_output.txt`. The following sections present a more detailed explanation of the output.
+Please change the directory to `~/artifact` and execute `run.sh`. This script regenerates most of the evaluation data as seen in the paper in section 6. The expected output can be found [here](data/artifact_output.txt). The following sections present a more detailed explanation of the output.
 
 ### Training
 
 This step uses the training data as described in section 5.1 to calculate its prediction for a combination of size n=4. You can compare this full table to the extract in Table 5 in the appendix of the paper, shown here (from the paper):  
 
-<img src="table_5.png" width="350"/>  
+<img src="imgs/table_5.png" width="350"/>  
 
 ### Pearson correlation coefficient
 
@@ -66,11 +66,11 @@ This calculates the Pearson correlation coefficient as described in section 6.2.
 
 In this artifact evaluation, we use the plot information given by all the fuzzing runs on the fuzzer-test-suite binaries to compare the combination of EnFuzz to Cupid's selection. The output is expected to match the data in section 6.2.2, as shown here for the test binaries (from the paper):  
 
-<img src="table_1.png" width="250"/>  
+<img src="imgs/table_1.png" width="250"/>  
 
 and the trainings binaries (from the paper):  
 
-<img src="table_2.png" width="350"/>  
+<img src="imgs/table_2.png" width="350"/>  
 
 Mainly, the geomean improvement of the test binaries should be around **+2.32%** and the trainings binaries around **+7.25%**.
 
@@ -78,7 +78,7 @@ Mainly, the geomean improvement of the test binaries should be around **+2.32%**
 
 This is the last artifact evaluation and concerns section 6.2.3. The resulting table should be similar to Table 3 in the paper, as shown here (from the paper): 
 
-<img src="table_3.png" width="350"/>  
+<img src="imgs/table_3.png" width="350"/>  
 
 Note that this table will not be identical as some runs on `md5sum` are unfortunately corrupt and it would take some time to find the bug and rerun the experiment. Although the general tendency of the `md5sum` evaluation still reflects the data shown in the paper, the data point of `EnFuzz-Q` with `md5sum` could not be restored. This is the only data point affected by this.
 
@@ -210,231 +210,3 @@ where *fuzzer1* and *fuzzer2* are to be replaced by one of `afl, aflfast, fairfu
 And *binary* has to be one of `base64, md5sum, who, uniq, objdump, addr2line, ar, strings, nm-new, readelf, strip-new, boringssl, c-ares, freetype2, guetzli, harfbuzz, json, lcms, libarchive, libjpeg-turbo, libpng, libssh, libxml2, llvm-libcxxabi, openssl-1.0.1f, openssl-1.0.2d, openssl-1.1.0c, openthread, pcre2, proj4, re2, sqlite, vorbis, woff2, wpantund`
 
 If you want to run more than two fuzzers in parallel, please increase the number of CPU cores assigned to the VirtualBox instance.
-
-
-## Expected output
-
-Expected output of `artifact/run.sh`:
-
-
-```
-Training
-+----------+-----------------------------------------+-----------------------+
-| Position |            Fuzzer Combination           | Predicted Performance |
-+----------+-----------------------------------------+-----------------------+
-|    1     |  fairfuzz,libfuzzer,libfuzzer,libfuzzer |        99691.98       |
-|    2     |    afl,libfuzzer,libfuzzer,libfuzzer    |        99404.65       |
-|    3     |  aflfast,libfuzzer,libfuzzer,libfuzzer  |        99111.35       |
-|    4     |  fairfuzz,fairfuzz,libfuzzer,libfuzzer  |        99064.79       |
-|    5     |     afl,fairfuzz,libfuzzer,libfuzzer    |        98900.30       |
-|    6     |  libfuzzer,libfuzzer,libfuzzer,radamsa  |        98754.12       |
-|    7     |   aflfast,fairfuzz,libfuzzer,libfuzzer  |        98748.66       |
-|    8     | libfuzzer,libfuzzer,libfuzzer,libfuzzer |        98536.75       |
-|    9     |    fairfuzz,libfuzzer,libfuzzer,qsym    |        98535.76       |
-|    10    |   fairfuzz,libfuzzer,libfuzzer,radamsa  |        98503.84       |
-|    11    |       afl,afl,libfuzzer,libfuzzer       |        98271.07       |
-|    12    |    libfuzzer,libfuzzer,libfuzzer,qsym   |        98210.66       |
-|    13    |     afl,aflfast,libfuzzer,libfuzzer     |        98164.41       |
-|    14    |       afl,libfuzzer,libfuzzer,qsym      |        98094.15       |
-|    15    |     afl,libfuzzer,libfuzzer,radamsa     |        97947.62       |
-|    16    |   aflfast,aflfast,libfuzzer,libfuzzer   |        97936.06       |
-|    17    |     aflfast,libfuzzer,libfuzzer,qsym    |        97789.66       |
-|    18    |   aflfast,libfuzzer,libfuzzer,radamsa   |        97716.82       |
-|    19    |     libfuzzer,libfuzzer,qsym,radamsa    |        97400.87       |
-|    20    |   libfuzzer,libfuzzer,radamsa,radamsa   |        97357.46       |
-|    21    |   fairfuzz,fairfuzz,fairfuzz,libfuzzer  |        96702.27       |
-|    22    |     afl,fairfuzz,fairfuzz,libfuzzer     |        96541.38       |
-|    23    |     fairfuzz,fairfuzz,libfuzzer,qsym    |        96504.56       |
-|    24    |      libfuzzer,libfuzzer,qsym,qsym      |        96447.28       |
-|    25    |   aflfast,fairfuzz,fairfuzz,libfuzzer   |        96447.16       |
-|    26    |   fairfuzz,fairfuzz,libfuzzer,radamsa   |        96236.07       |
-|    27    |       afl,fairfuzz,libfuzzer,qsym       |        96176.07       |
-|    28    |        afl,afl,fairfuzz,libfuzzer       |        96064.53       |
-|    29    |     aflfast,fairfuzz,libfuzzer,qsym     |        96017.76       |
-|    30    |      afl,aflfast,fairfuzz,libfuzzer     |        96010.71       |
-|    31    |    aflfast,aflfast,fairfuzz,libfuzzer   |        95878.15       |
-|    32    |      afl,fairfuzz,libfuzzer,radamsa     |        95822.35       |
-|    33    |     fairfuzz,libfuzzer,qsym,radamsa     |        95723.93       |
-|    34    |    aflfast,fairfuzz,libfuzzer,radamsa   |        95697.93       |
-|    35    |    fairfuzz,libfuzzer,radamsa,radamsa   |        95416.06       |
-|    36    |          afl,afl,libfuzzer,qsym         |        95299.81       |
-|    37    |       fairfuzz,libfuzzer,qsym,qsym      |        95237.63       |
-|    38    |        afl,aflfast,libfuzzer,qsym       |        95182.36       |
-|    39    |          afl,afl,afl,libfuzzer          |        95180.49       |
-|    40    |        afl,afl,aflfast,libfuzzer        |        95147.54       |
-|    41    |      afl,aflfast,aflfast,libfuzzer      |        95038.41       |
-|    42    |        afl,afl,libfuzzer,radamsa        |        94950.33       |
-|    43    |      aflfast,aflfast,libfuzzer,qsym     |        94930.42       |
-|    44    |        afl,libfuzzer,qsym,radamsa       |        94912.88       |
-|    45    |      afl,aflfast,libfuzzer,radamsa      |        94856.11       |
-|    46    |    aflfast,aflfast,aflfast,libfuzzer    |        94826.09       |
-|    47    |      aflfast,libfuzzer,qsym,radamsa     |        94663.60       |
-|    48    |    aflfast,aflfast,libfuzzer,radamsa    |        94648.76       |
-|    49    |      afl,libfuzzer,radamsa,radamsa      |        94583.56       |
-|    50    |         afl,libfuzzer,qsym,qsym         |        94518.87       |
-|    51    |    aflfast,libfuzzer,radamsa,radamsa    |        94376.34       |
-|    52    |      libfuzzer,qsym,radamsa,radamsa     |        94238.18       |
-|    53    |       aflfast,libfuzzer,qsym,qsym       |        94187.08       |
-|    54    |    libfuzzer,radamsa,radamsa,radamsa    |        93976.68       |
-|    55    |       libfuzzer,qsym,qsym,radamsa       |        93716.22       |
-|    56    |         libfuzzer,qsym,qsym,qsym        |        92553.88       |
-|    57    |   fairfuzz,fairfuzz,fairfuzz,fairfuzz   |        83759.56       |
-|    58    |     fairfuzz,fairfuzz,fairfuzz,qsym     |        83353.24       |
-|    59    |      afl,fairfuzz,fairfuzz,fairfuzz     |        83300.37       |
-|    60    |    aflfast,fairfuzz,fairfuzz,fairfuzz   |        83201.75       |
-|    61    |    fairfuzz,fairfuzz,fairfuzz,radamsa   |        82927.55       |
-|    62    |        afl,fairfuzz,fairfuzz,qsym       |        82496.76       |
-|    63    |      aflfast,fairfuzz,fairfuzz,qsym     |        82355.80       |
-|    64    |        afl,afl,fairfuzz,fairfuzz        |        82336.06       |
-|    65    |      afl,aflfast,fairfuzz,fairfuzz      |        82289.53       |
-|    66    |    aflfast,aflfast,fairfuzz,fairfuzz    |        82143.49       |
-|    67    |      afl,fairfuzz,fairfuzz,radamsa      |        82029.75       |
-|    68    |      fairfuzz,fairfuzz,qsym,radamsa     |        81982.45       |
-|    69    |    aflfast,fairfuzz,fairfuzz,radamsa    |        81910.95       |
-|    70    |    fairfuzz,fairfuzz,radamsa,radamsa    |        81527.56       |
-|    71    |       fairfuzz,fairfuzz,qsym,qsym       |        81340.60       |
-|    72    |          afl,afl,fairfuzz,qsym          |        80891.76       |
-|    73    |        afl,aflfast,fairfuzz,qsym        |        80794.87       |
-|    74    |           afl,afl,afl,fairfuzz          |        80786.25       |
-|    75    |         afl,afl,aflfast,fairfuzz        |        80768.08       |
-|    76    |       afl,aflfast,aflfast,fairfuzz      |        80653.69       |
-|    77    |      aflfast,aflfast,fairfuzz,qsym      |        80551.41       |
-|    78    |         afl,afl,fairfuzz,radamsa        |        80480.47       |
-|    79    |     aflfast,aflfast,aflfast,fairfuzz    |        80423.26       |
-|    80    |        afl,fairfuzz,qsym,radamsa        |        80415.53       |
-|    81    |       afl,aflfast,fairfuzz,radamsa      |        80398.56       |
-|    82    |      aflfast,fairfuzz,qsym,radamsa      |        80202.38       |
-|    83    |     aflfast,aflfast,fairfuzz,radamsa    |        80192.48       |
-|    84    |       afl,fairfuzz,radamsa,radamsa      |        79996.51       |
-|    85    |     aflfast,fairfuzz,radamsa,radamsa    |        79815.03       |
-|    86    |          afl,fairfuzz,qsym,qsym         |        79789.44       |
-|    87    |      fairfuzz,qsym,radamsa,radamsa      |        79632.69       |
-|    88    |        aflfast,fairfuzz,qsym,qsym       |        79514.37       |
-|    89    |     fairfuzz,radamsa,radamsa,radamsa    |        79272.87       |
-|    90    |        fairfuzz,qsym,qsym,radamsa       |        78912.96       |
-|    91    |             afl,afl,afl,afl             |        78127.16       |
-|    92    |           afl,afl,afl,aflfast           |        78120.80       |
-|    93    |         afl,afl,aflfast,aflfast         |        77992.14       |
-|    94    |             afl,afl,afl,qsym            |        77954.53       |
-|    95    |           afl,afl,aflfast,qsym          |        77855.10       |
-|    96    |           afl,afl,afl,radamsa           |        77753.55       |
-|    97    |       afl,aflfast,aflfast,aflfast       |        77723.28       |
-|    98    |         afl,afl,aflfast,radamsa         |        77670.63       |
-|    99    |         afl,aflfast,aflfast,qsym        |        77576.43       |
-|   100    |         fairfuzz,qsym,qsym,qsym         |        77482.80       |
-|   101    |       afl,aflfast,aflfast,radamsa       |        77437.96       |
-|   102    |           afl,afl,qsym,radamsa          |        77373.60       |
-|   103    |     aflfast,aflfast,aflfast,aflfast     |        77272.43       |
-|   104    |         afl,afl,radamsa,radamsa         |        77167.10       |
-|   105    |         afl,aflfast,qsym,radamsa        |        77146.73       |
-|   106    |       aflfast,aflfast,aflfast,qsym      |        77066.57       |
-|   107    |     aflfast,aflfast,aflfast,radamsa     |        77015.76       |
-|   108    |       afl,aflfast,radamsa,radamsa       |        76975.95       |
-|   109    |       aflfast,aflfast,qsym,radamsa      |        76671.49       |
-|   110    |     aflfast,aflfast,radamsa,radamsa     |        76578.32       |
-|   111    |         afl,qsym,radamsa,radamsa        |        76456.68       |
-|   112    |            afl,afl,qsym,qsym            |        76449.49       |
-|   113    |       afl,radamsa,radamsa,radamsa       |        76320.08       |
-|   114    |          afl,aflfast,qsym,qsym          |        76163.31       |
-|   115    |       aflfast,qsym,radamsa,radamsa      |        76014.52       |
-|   116    |     aflfast,radamsa,radamsa,radamsa     |        75947.15       |
-|   117    |        aflfast,aflfast,qsym,qsym        |        75545.52       |
-|   118    |          afl,qsym,qsym,radamsa          |        75445.72       |
-|   119    |     radamsa,radamsa,radamsa,radamsa     |        75054.03       |
-|   120    |       qsym,radamsa,radamsa,radamsa      |        75030.54       |
-|   121    |        aflfast,qsym,qsym,radamsa        |        74879.13       |
-|   122    |        qsym,qsym,radamsa,radamsa        |        73735.60       |
-|   123    |            afl,qsym,qsym,qsym           |        73615.54       |
-|   124    |          aflfast,qsym,qsym,qsym         |        72796.42       |
-|   125    |          qsym,qsym,qsym,radamsa         |        71395.88       |
-|   126    |           qsym,qsym,qsym,qsym           |        66091.62       |
-+----------+-----------------------------------------+-----------------------+
-
-
-6.2.1 Comparing predicted and actual rankings.
-Experiment 1:
-+----------------+---------------------------------+
-|     Binary     | Pearson Correlation Coefficient |
-+----------------+---------------------------------+
-|     c-ares     |              -0.90              |
-|    guetzli     |               0.93              |
-|      json      |               0.97              |
-|   libarchive   |               0.98              |
-|     libpng     |               1.00              |
-|     libssh     |               0.91              |
-|    libxml2     |               1.00              |
-| openssl-1.0.2d |              -0.07              |
-| openssl-1.1.0c |               0.99              |
-|   openthread   |               0.91              |
-|     proj4      |               0.94              |
-|     sqlite     |               0.93              |
-|     woff2      |               0.97              |
-+----------------+---------------------------------+
-Pearson correlation coefficient for all of the test data is 0.81 with p = 0.00
-Experiment 2:
-+----------------+---------------------------------+
-|     Binary     | Pearson Correlation Coefficient |
-+----------------+---------------------------------+
-|     c-ares     |              -0.36              |
-|    guetzli     |               0.44              |
-|      json      |               0.94              |
-|   libarchive   |               0.93              |
-|     libpng     |               0.64              |
-|     libssh     |               0.94              |
-|    libxml2     |               0.86              |
-| openssl-1.0.2d |               0.42              |
-| openssl-1.1.0c |               0.05              |
-|   openthread   |               0.93              |
-|     proj4      |               0.96              |
-|     sqlite     |               0.56              |
-|     woff2      |               0.88              |
-+----------------+---------------------------------+
-Pearson correlation coefficient for all of the test data is 0.61 with p = 0.00
-
-6.2.2 Evaluating on fuzzer-test-suite
-test
-+-----------------------+--------+--------+---------+
-|         Binary        | EnFuzz | Cupid  | p-value |
-+-----------------------+--------+--------+---------+
-|         c-ares        |   58   |   58   |    -    |
-|        guetzli        |  2617  |  2603  |   0.26  |
-|          json         |  707   |  711   |   0.01  |
-|       libarchive      |  3161  |  3577  |   0.01  |
-|         libpng        |  668   |  697   |   0.00  |
-|         libssh        |  809   |  811   |   0.48  |
-|        libxml2        |  2014  |  2123  |   0.00  |
-|     openssl-1.0.2d    |  786   |  784   |   0.08  |
-|     openssl-1.1.0c    |  777   |  779   |   0.07  |
-|       openthread      |  864   |  863   |   0.48  |
-|         proj4         |  2715  |  2819  |   0.11  |
-|         sqlite        |  913   |  913   |   0.08  |
-|         woff2         |  1058  |  1102  |   0.00  |
-| Improvement (geomean) |   -    | +2.32% |    -    |
-+-----------------------+--------+--------+---------+
-training
-+-----------------------+--------+--------+---------+
-|         Binary        | EnFuzz | Cupid  | p-value |
-+-----------------------+--------+--------+---------+
-|       boringssl       |  1145  |  1145  |   0.47  |
-|       freetype2       |  5235  |  6055  |   0.00  |
-|        harfbuzz       |  4124  |  4272  |   0.00  |
-|          lcms         |  970   |  1385  |   0.00  |
-|     libjpeg-turbo     |  1227  |  1386  |   0.00  |
-|     llvm-libcxxabi    |  3305  |  3432  |   0.00  |
-|         pcre2         |  4377  |  4189  |   0.00  |
-|          re2          |  2190  |  2205  |   0.03  |
-|         vorbis        |  932   |  946   |   0.12  |
-|        wpantund       |  4186  |  4302  |   0.02  |
-| Improvement (geomean) |   -    | +7.25% |    -    |
-+-----------------------+--------+--------+---------+
-
-6.2.3 Evaluating on Lava-M
-+--------+--------+----------+-------+
-| Binary | EnFuzz | EnFuzz-Q | Cupid |
-+--------+--------+----------+-------+
-| base64 |   42   |    48    |   48  |
-| md5sum |   24   |    0     |   25  |
-|  uniq  |   7    |    22    |   29  |
-|  who   |   95   |   340    |  360  |
-+--------+--------+----------+-------+
-```
