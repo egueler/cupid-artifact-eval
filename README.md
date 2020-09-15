@@ -1,8 +1,10 @@
 # Installation & Information
 
-Please use the ready-to-go [VirtualBox image (download)](https://ruhr-uni-bochum.sciebo.de/s/PolO2GCAvgdk2Al), not only to avoid the time consuming task of installing all dependencies, generating docker images and copying all the data, but also to avoid damages to the file system as our code needs to harshly terminate some of the fuzzers in the rare cases when they refuse to be killed.
+Please use the ready-to-go Debian [VirtualBox image (download)](https://ruhr-uni-bochum.sciebo.de/s/PolO2GCAvgdk2Al), not only to avoid the time consuming task of installing all dependencies, generating docker images and copying all the data, but also to avoid damages to the file system as our code needs to harshly terminate some of the fuzzers in the rare cases when they refuse to be killed.
 
-Import the image in VirtualBox and boot the system. The credentials are set as "cupid:cupid" and "root:root". Note that VirtualBox might complain about missing guest additions, which was needed to copy the artifact data and source code via a shared folder. You can safely ignore the message. Additonally, if `A start job is running` is shown, please wait a few minutes until the VM boots.  
+The VM image was created with VirtualBox 6.1.12, we recommend using at least this version to import the image. For install instructions, please refer to [this guide](https://www.virtualbox.org/wiki/Downloads).
+
+Import the image in VirtualBox (double clicking on the .ova file should work on most operating systems, but alternatively click on File -> Import Appliance and then select the .ova image file and follow the instructions). Finally, boot the the system. The credentials are set as "cupid:cupid" and "root:root". Note that VirtualBox might complain about missing guest additions, which was needed to copy the artifact data and source code via a shared folder, but it is not necessary for this artifact evaluation (i.e., you can safely ignore the message). Additonally, if `A start job is running` is shown, please wait a few minutes until the VM boots.  
 
 Please login as cupid. The home directory contains the following directories:  
 
@@ -80,7 +82,7 @@ This is the last artifact evaluation and concerns section 6.2.3. The resulting t
 
 <img src="imgs/table_3.png" width="350"/>  
 
-Note that this table will not be identical as some runs on `md5sum` are unfortunately corrupt and it would take some time to find the bug and rerun the experiment. Although the general tendency of the `md5sum` evaluation still reflects the data shown in the paper, the data point of `EnFuzz-Q` with `md5sum` could not be restored. This is the only data point affected by this.
+Note that this table will not be identical as some runs on `md5sum` are unfortunately corrupt and it would take some time to find the bug and rerun the experiment. Although the general tendency of the `md5sum` evaluation still reflects the data shown in the paper (i.e., `EnFuzz` < `Cupid`), the data point of `EnFuzz-Q` with `md5sum` could not be restored. This is the only data point affected by this. As shown by the other binaries, the combination of `EnFuzz-Q` does indeed generally work.
 
 # Appendix
 
