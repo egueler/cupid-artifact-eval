@@ -4,9 +4,11 @@ Please use the ready-to-go Debian [VirtualBox image (download)](https://ruhr-uni
 
 The VM image was created with VirtualBox 6.1.12, we recommend using at least this version to import the image. For install instructions, please refer to [this guide](https://www.virtualbox.org/wiki/Downloads).
 
-Import the image in VirtualBox (double clicking on the .ova file should work on most operating systems, but alternatively click on File -> Import Appliance and then select the .ova image file and follow the instructions). Finally, boot the the system. The credentials are set as "cupid:cupid" and "root:root". Note that VirtualBox might complain about missing guest additions, which was needed to copy the artifact data and source code via a shared folder, but it is not necessary for this artifact evaluation (i.e., you can safely ignore the message). Additonally, if `A start job is running` is shown, please wait a few minutes until the VM boots.  
+Import the image in VirtualBox (double clicking on the .ova file should work on most operating systems, but alternatively click on File -> Import Appliance and then select the .ova image file and follow the instructions). Finally, boot the the system.  
 
-Please login as cupid. The home directory contains the following directories:  
+If VirtualBox complains about a missing extension pack (e.g., due to USB 2.0 support), please install the extension pack. Additionally, VirtualBox might complain about missing guest additions, which was needed to copy the artifact data and source code via a shared folder, but it is not necessary for this artifact evaluation (i.e., you can safely ignore the message). Additonally, if `A start job is running` is shown, please wait a few minutes until the VM boots.  
+
+The credentials are set as "cupid:cupid" and "root:root". Please login as cupid. The home directory contains the following directories:  
 
 `2019-collfuzz-tests/`: this is the main source code, the engine of Cupid which consists of the fuzzer drivers and a control mechanism for their respective docker images (described in the paper in section 5.2.1). In `docker/` one can find all Dockerfiles for the respective fuzzers. The VM image comes with prebuilt AFL docker images.  
 `2019-quickcov/`: a small library to quickly gather branch coverage information. Internally, it uses AFL as a library. Described in section 5.2.2.  
@@ -39,7 +41,7 @@ where
 
 Wait ~one minute until the execution is done. Now one can inspect the queue files in `/dev/shm/sync*` (e.g. `/dev/shm/sync817/fuzzer-afl-slave-0-817/queue/`). If queue files were created, everything is working fine.
 
-If one wants to inspect the output while its running, we recommend redirecting the output to a file and then exploring it via `nano`, or executing it in a screen session and use the scrollback buffer (screen is already installed). 
+If one wants to inspect the output while its running, we recommend redirecting the output to a file and then exploring it via `nano`, or executing it in a screen session and use the scrollback buffer (screen is already installed).  
 Additionally, if you want to watch the fuzzers while running, execute run.sh in the background (`run.sh &`), then use `screen -ls` to list all currently running fuzzers (all fuzzers run in a screen session which executes the docker image), and finally use `screen -x afl-fuzzer-slave-0` (or similar) to watch the fuzzing process of AFL. You can also use `docker ps` to list all running docker containers.  
 
 Note that `run.sh` terminates after 60s, so be sure to run these commandy quickly while its still running in the background or increase the 60 in the script.
