@@ -1,3 +1,7 @@
+# Cupid
+
+Please note that this is the *artifact evaluation* repository of Cupid. If you're looking for the main repository, please click here: https://github.com/RUB-SysSec/cupid
+
 # Installation & Information
 
 Please use the ready-to-go Debian [VirtualBox image (download)](https://ruhr-uni-bochum.sciebo.de/s/PolO2GCAvgdk2Al), not only to avoid the time consuming task of installing all dependencies, generating docker images and copying all the data, but also to avoid damages to the file system as our code needs to harshly terminate some of the fuzzers in the rare cases when they refuse to be killed.
